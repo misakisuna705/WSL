@@ -16,6 +16,7 @@
     * [登入設定](#登入設定)
         - [Linux 環境](#linux-環境)
         - [Windows 環境](#windows-環境)
+    * [環境更新](#環境更新)
 
 <!-- vim-markdown-toc -->
 
@@ -100,4 +101,14 @@ usermod -aG sudo [使用者名稱]
 
 ```powershell
 lxrunoffline su -n Ubuntu -v 1000
+```
+
+## 環境更新
+
+```zsh
+sudo apt update
+sudo apt upgrade -y
+sudo apt dist-upgrade
+sudo apt autoclean
+sudo apt autoremove -y
 ```
