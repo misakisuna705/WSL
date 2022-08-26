@@ -2,52 +2,52 @@
 
 <!-- vim-markdown-toc GFM -->
 
-+ [Chocolatey](#chocolatey)
-    * [安裝](#安裝)
-    * [命令](#命令)
-    * [插件](#插件)
-+ [WSL](#wsl)
-    * [功能啟用](#功能啟用)
-        - [虛擬化平台](#虛擬化平台)
-        - [WSL](#wsl-1)
-        - [WSL2](#wsl2)
-    * [元件更新](#元件更新)
-    * [系統部署](#系統部署)
-        - [下載](#下載)
-        - [安裝](#安裝-1)
-    * [登入設定](#登入設定)
-        - [Ubuntu 環境](#ubuntu-環境)
-        - [Windows 環境](#windows-環境)
-    * [環境更新](#環境更新)
-+ [Remote](#remote)
-    * [Windows](#windows)
-        - [ssh](#ssh)
-            + [OpenSSH 版本檢視](#openssh-版本檢視)
-            + [ssh server 安裝](#ssh-server-安裝)
-            + [開機自動啓動](#開機自動啓動)
-        - [vpn](#vpn)
-    * [WSL](#wsl-2)
-        - [ssh](#ssh-1)
-            + [安裝 ssh server](#安裝-ssh-server)
-            + [/etc/ssh/sshd_config](#etcsshsshd_config)
-            + [開機自動啓動](#開機自動啓動-1)
-                * [Linux 環境](#linux-環境)
-                * [Windows 環境](#windows-環境-1)
-        - [vpn](#vpn-1)
+* [Chocolatey](#chocolatey)
+    - [安裝](#安裝)
+    - [命令](#命令)
+    - [插件](#插件)
+* [WSL](#wsl)
+    - [功能啟用](#功能啟用)
+        + [虛擬化平台](#虛擬化平台)
+        + [WSL](#wsl-1)
+        + [WSL2](#wsl2)
+    - [元件更新](#元件更新)
+    - [系統部署](#系統部署)
+        + [下載](#下載)
+        + [安裝](#安裝-1)
+    - [登入設定](#登入設定)
+        + [Ubuntu 環境](#ubuntu-環境)
+        + [Windows 環境](#windows-環境)
+    - [環境更新](#環境更新)
+* [Remote](#remote)
+    - [Windows](#windows)
+        + [ssh](#ssh)
+            * [OpenSSH 版本檢視](#openssh-版本檢視)
+            * [ssh server 安裝](#ssh-server-安裝)
+            * [開機自動啓動](#開機自動啓動)
+        + [vpn](#vpn)
+    - [WSL](#wsl-2)
+        + [ssh](#ssh-1)
+            * [安裝 ssh server](#安裝-ssh-server)
+            * [/etc/ssh/sshd_config](#etcsshsshd_config)
+            * [開機自動啓動](#開機自動啓動-1)
+                - [Linux 環境](#linux-環境)
+                - [Windows 環境](#windows-環境-1)
+        + [vpn](#vpn-1)
 
 <!-- vim-markdown-toc -->
 
 ---
 
-# Chocolatey
+## Chocolatey
 
-## 安裝
+### 安裝
 
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 ```
 
-## 命令
+### 命令
 
 ```powershell
 choco search 插件 # 搜尋某插件與其相關插件
@@ -58,54 +58,54 @@ choco upgrade 插件 # 升級該插件
 choco upgrade all # 升級所有插件
 ```
 
-## 插件
+### 插件
 
 ```powershell
 choco install lxrunoffline
 ```
 
-# WSL
+## WSL
 
-## 功能啟用
+### 功能啟用
 
-### 虛擬化平台
+#### 虛擬化平台
 
 ```powershell
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 ```
 
-### WSL
+#### WSL
 
 ```powershell
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 ```
 
-### WSL2
+#### WSL2
 
 ```powershell
 wsl --set-default-version 2
 ```
 
-## 元件更新
+### 元件更新
 
 -   [元件載點](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)
 
-## 系統部署
+### 系統部署
 
-### 下載
+#### 下載
 
 -   [Ubuntu 載點](https://aka.ms/wsl-ubuntu-1804)後
 -   副檔名更改成 zip，並解壓縮
 
-### 安裝
+#### 安裝
 
 ```powershell
 LxRunOffline i -n Ubuntu -d e:\WSL\Ubuntu -f  "C:\Users\[使用者名稱]\Downloads\Ubuntu_1804.2019.522.0_x64\install.tar.gz" -s
 ```
 
-## 登入設定
+### 登入設定
 
-### Ubuntu 環境
+#### Ubuntu 環境
 
 ```zsh
 useradd -m -s /bin/bash [使用者名稱]
@@ -113,13 +113,13 @@ passwd [使用者名稱]
 usermod -aG sudo [使用者名稱]
 ```
 
-### Windows 環境
+#### Windows 環境
 
 ```powershell
 lxrunoffline su -n Ubuntu -v 1000
 ```
 
-## 環境更新
+### 環境更新
 
 ```zsh
 sudo apt update
@@ -129,31 +129,31 @@ sudo apt autoclean
 sudo apt autoremove -y
 ```
 
-# Remote
+## Remote
 
-## Windows
+### Windows
 
-### ssh
+#### ssh
 
-#### OpenSSH 版本檢視
+##### OpenSSH 版本檢視
 
 ```powershell
 Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'
 ```
 
-#### ssh server 安裝
+##### ssh server 安裝
 
 ```powershell
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
 ```
 
-#### 開機自動啓動
+##### 開機自動啓動
 
 ```powershell
 Get-Service -Name sshd | Set-Service -StartupType Auto
 ```
 
-### vpn
+#### vpn
 
 -   Zerotier 安裝
 
@@ -161,25 +161,25 @@ Get-Service -Name sshd | Set-Service -StartupType Auto
 choco install zerotier-one
 ```
 
-## WSL
+### WSL
 
-### ssh
+#### ssh
 
-#### 安裝 ssh server
+##### 安裝 ssh server
 
 ```zsh
 sudo apt install -y openssh-server
 ```
 
-#### /etc/ssh/sshd_config
+##### /etc/ssh/sshd_config
 
 ```apacheconf
 PasswordAuthentication yes
 ```
 
-#### 開機自動啓動
+##### 開機自動啓動
 
-##### Linux 環境
+###### Linux 環境
 
 -   /etc/init.wsl
 
@@ -195,7 +195,7 @@ PasswordAuthentication yes
 sudo chmod u+x /etc/init.wsl
 ```
 
-##### Windows 環境
+###### Windows 環境
 
 -   C:\Users\[使用者名稱]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Ubuntu.vbs
 
@@ -204,7 +204,7 @@ Set ws = CreateObject("Wscript.Shell")
 ws.run "wsl -d Ubuntu -u root /etc/init.wsl start", vbhide
 ```
 
-### vpn
+#### vpn
 
 -   Zerotier 安裝
 
