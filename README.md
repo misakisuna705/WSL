@@ -5,14 +5,17 @@
     * [命令](#命令)
     * [插件](#插件)
 + [WSL](#wsl)
-    * [啟用](#啟用)
+    * [功能啟用](#功能啟用)
         - [虛擬化平台](#虛擬化平台)
-        - [WSL 功能](#wsl-功能)
+        - [WSL](#wsl-1)
         - [WSL 2](#wsl-2)
-    * [更新](#更新)
-    * [部署](#部署)
+    * [元件更新](#元件更新)
+    * [Linux 部署](#linux-部署)
         - [Ubuntu](#ubuntu)
         - [LxRunOffline](#lxrunoffline)
+    * [登入設定](#登入設定)
+        - [Linux 環境](#linux-環境)
+        - [Windows 環境](#windows-環境)
 
 <!-- vim-markdown-toc -->
 
@@ -45,7 +48,7 @@ choco install lxrunoffline
 
 # WSL
 
-## 啟用
+## 功能啟用
 
 ### 虛擬化平台
 
@@ -53,7 +56,7 @@ choco install lxrunoffline
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 ```
 
-### WSL 功能
+### WSL
 
 ```powershell
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
@@ -65,11 +68,11 @@ dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux 
 wsl --set-default-version 2
 ```
 
-## 更新
+## 元件更新
 
--   [元件](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)
+-   [載點](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)
 
-## 部署
+## Linux 部署
 
 ### Ubuntu
 
@@ -81,4 +84,20 @@ wsl --set-default-version 2
 
 ```powershell
 LxRunOffline i -n Ubuntu -d e:\WSL\Ubuntu -f  "C:\Users\[使用者名稱]\Downloads\Ubuntu_1804.2019.522.0_x64\install.tar.gz" -s
+```
+
+## 登入設定
+
+### Linux 環境
+
+```zsh
+useradd -m -s /bin/bash [使用者名稱]
+passwd [使用者名稱]
+usermod -aG sudo [使用者名稱]
+```
+
+### Windows 環境
+
+```powershell
+lxrunoffline su -n Ubuntu -v 1000
 ```
