@@ -6,17 +6,12 @@
     * [插件](#插件)
 + [WSL](#wsl)
     * [功能啟用](#功能啟用)
-        - [虛擬化平台](#虛擬化平台)
-        - [WSL](#wsl-1)
-        - [WSL 2](#wsl-2)
     * [元件更新](#元件更新)
     * [Linux 部署](#linux-部署)
-        - [Ubuntu](#ubuntu)
-        - [LxRunOffline](#lxrunoffline)
     * [登入設定](#登入設定)
-        - [Linux 環境](#linux-環境)
-        - [Windows 環境](#windows-環境)
     * [環境更新](#環境更新)
+    * [遠端設定](#遠端設定)
+        - [Windows 環境](#windows-環境)
 
 <!-- vim-markdown-toc -->
 
@@ -51,19 +46,19 @@ choco install lxrunoffline
 
 ## 功能啟用
 
-### 虛擬化平台
+- 虛擬化平台
 
 ```powershell
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 ```
 
-### WSL
+- WSL
 
 ```powershell
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 ```
 
-### WSL 2
+- WSL2
 
 ```powershell
 wsl --set-default-version 2
@@ -75,13 +70,9 @@ wsl --set-default-version 2
 
 ## Linux 部署
 
-### Ubuntu
+- 下載[Ubuntu](https://aka.ms/wsl-ubuntu-1804)後，副檔名更改成zip，並解壓縮
 
--   [載點](https://aka.ms/wsl-ubuntu-1804)
-
--   副檔名更改成 zip，並解壓縮
-
-### LxRunOffline
+- 使用LxRunOffline部署在指定位置
 
 ```powershell
 LxRunOffline i -n Ubuntu -d e:\WSL\Ubuntu -f  "C:\Users\[使用者名稱]\Downloads\Ubuntu_1804.2019.522.0_x64\install.tar.gz" -s
@@ -89,7 +80,7 @@ LxRunOffline i -n Ubuntu -d e:\WSL\Ubuntu -f  "C:\Users\[使用者名稱]\Downlo
 
 ## 登入設定
 
-### Linux 環境
+- Linux 環境
 
 ```zsh
 useradd -m -s /bin/bash [使用者名稱]
@@ -97,7 +88,7 @@ passwd [使用者名稱]
 usermod -aG sudo [使用者名稱]
 ```
 
-### Windows 環境
+- Windows 環境
 
 ```powershell
 lxrunoffline su -n Ubuntu -v 1000
@@ -112,3 +103,20 @@ sudo apt dist-upgrade
 sudo apt autoclean
 sudo apt autoremove -y
 ```
+
+## 遠端設定
+
+### Windows 環境
+
+- 檢視 OpenSSH 版本
+
+    	Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'
+
+    	#安裝ssh server
+
+    	Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+
+    	#設定開機自動啓動ssh server
+
+    	Get-Service -Name sshd | Set-Service -StartupType Auto
+
