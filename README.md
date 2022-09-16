@@ -33,6 +33,7 @@
             * [開機自動啓動](#開機自動啓動-1)
                 - [Linux 環境](#linux-環境)
                 - [Windows 環境](#windows-環境-1)
+            * [遠端連線](#遠端連線)
         + [vpn](#vpn-1)
 
 <!-- vim-markdown-toc -->
@@ -202,6 +203,21 @@ sudo chmod u+x /etc/init.wsl
 ```vbnet
 Set ws = CreateObject("Wscript.Shell")
 ws.run "wsl -d Ubuntu -u root /etc/init.wsl start", vbhide
+```
+
+##### 遠端連線
+
+-   ssh
+
+```zsh
+ssh [ip]
+```
+
+-   sshfs
+
+```zsh
+sshfs [ip]:[remote path] [local path]
+umount [local path]
 ```
 
 #### vpn
