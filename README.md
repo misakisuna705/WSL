@@ -5,12 +5,10 @@
 * [Chocolatey](#chocolatey)
     - [安裝](#安裝)
     - [命令](#命令)
-    - [插件](#插件)
 * [WSL](#wsl)
     - [功能啟用](#功能啟用)
         + [虛擬化平台](#虛擬化平台)
         + [WSL](#wsl-1)
-        + [WSL2](#wsl2)
     - [元件更新](#元件更新)
     - [系統部署](#系統部署)
         + [下載](#下載)
@@ -45,7 +43,7 @@
 ### 安裝
 
 ```powershell
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1')) # admin
 ```
 
 ### 命令
@@ -53,16 +51,11 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 ```powershell
 choco search 插件 # 搜尋某插件與其相關插件
 choco info 插件 # 查詢該插件詳細資料
-choco install 插件 # 安裝該插件
+choco list --localonly # 查詢已安裝插件清單
+choco install -y 插件 # 安裝該插件
 choco uninstall 插件 # 解除安裝該插件
 choco upgrade 插件 # 升級該插件
 choco upgrade all # 升級所有插件
-```
-
-### 插件
-
-```powershell
-choco install lxrunoffline
 ```
 
 ## WSL
@@ -81,11 +74,7 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 ```
 
-#### WSL2
-
-```powershell
-wsl --set-default-version 2
-```
+-   重新啓動
 
 ### 元件更新
 
@@ -101,7 +90,11 @@ wsl --set-default-version 2
 #### 安裝
 
 ```powershell
-LxRunOffline i -n Ubuntu -d e:\WSL\Ubuntu -f  "C:\Users\[使用者名稱]\Downloads\Ubuntu_1804.2019.522.0_x64\install.tar.gz" -s
+choco install -y lxrunoffline
+
+LxRunOffline i -n Ubuntu -d d:\WSL\Ubuntu -f "C:\Users\[使用者名稱]\Downloads\Ubuntu_1804.2019.522.0_x64\install.tar.gz" # LxRunOffline uninstall -n Ubuntu
+
+wsl --set-version Ubuntu 2
 ```
 
 ### 登入設定
@@ -126,8 +119,7 @@ lxrunoffline su -n Ubuntu -v 1000
 sudo apt update
 sudo apt upgrade -y
 sudo apt dist-upgrade
-sudo apt autoclean
-sudo apt autoremove -y
+sudo apt autoremove -y # sudo apt autoclean
 ```
 
 ## Remote
@@ -139,19 +131,19 @@ sudo apt autoremove -y
 ##### OpenSSH 版本檢視
 
 ```powershell
-Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'
+Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*' # admin
 ```
 
 ##### ssh server 安裝
 
 ```powershell
-Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0 # admin
 ```
 
 ##### 開機自動啓動
 
 ```powershell
-Get-Service -Name sshd | Set-Service -StartupType Auto
+Get-Service -Name sshd | Set-Service -StartupType Auto # admin
 ```
 
 #### vpn
@@ -159,7 +151,7 @@ Get-Service -Name sshd | Set-Service -StartupType Auto
 -   Zerotier 安裝
 
 ```powershell
-choco install zerotier-one
+choco install -y zerotier-one
 ```
 
 ### WSL
@@ -187,7 +179,7 @@ PasswordAuthentication yes
 ```zsh
 #! /bin/sh
 /etc/init.d/ssh $1
-/etc/init.d/zerotier-one
+/etc/init.d/zerotier-one start
 ```
 
 -   可執行設定
@@ -231,5 +223,7 @@ curl -s https://install.zerotier.com | sudo bash
 -   VLAN 加入
 
 ```zsh
+sudo zerotier-one -d
+
 sudo zerotier-cli join [號碼]
 ```
